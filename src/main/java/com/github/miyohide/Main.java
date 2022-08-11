@@ -19,7 +19,7 @@ public class Main {
         return elements;
     }
 
-    public static List<Integer> fluxMethodWithOriginalSubscriber(Flux<Integer> f) {
+    public static List<Integer> fluxMethodWithImplementSubscriber(Flux<Integer> f) {
         List<Integer> elements = new ArrayList<>();
         f.log().subscribe(new Subscriber<Integer>() {
             @Override
