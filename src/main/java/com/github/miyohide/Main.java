@@ -37,4 +37,36 @@ public class Main {
         });
         return elements;
     }
+
+    public static List<Integer> backpressure01(Flux<Integer> f) {
+        List<Integer> elements = new ArrayList<>();
+        f.log().subscribe(new Subscriber<Integer>() {
+            private Subscription s;
+            int onNextAmount;
+            @Override
+            public void onSubscribe(Subscription s) {
+                this.s = s;
+                s.request(2);
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                elements.add(integer);
+                onNextAmount++;
+                if (onNextAmount % 2 == 0) {
+                    s.request(2);
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        });
+
+        return elements;
+    }
 }

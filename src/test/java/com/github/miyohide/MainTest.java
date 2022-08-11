@@ -20,4 +20,11 @@ class MainTest {
                 Main.fluxMethodWithImplementSubscriber(Flux.just(1, 2, 3, 4, 5)),
                 is(contains(1, 2, 3, 4, 5)));
     }
+
+    @Test
+    void backpressure01() {
+        assertThat(
+                Main.backpressure01(Flux.just(1, 2, 3, 4, 5)),
+                is(contains(1, 2, 3, 4, 5)));
+    }
 }
