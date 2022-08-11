@@ -75,4 +75,14 @@ public class Main {
         f.log().map(i -> i * 2).subscribe(elements::add);
         return elements;
     }
+
+    public static List<String> combiningTwoStreams(Flux<Integer> f) {
+        List<String> elements = new ArrayList<>();
+
+        f.log().map(i -> i * 2)
+                .zipWith(Flux.range(0, Integer.MAX_VALUE),
+                        (one, two) -> String.format("First Flux: %d, Second Flux: %d", one, two))
+                .subscribe(elements::add);
+        return elements;
+    }
 }

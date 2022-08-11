@@ -35,4 +35,17 @@ class MainTest {
                 is(contains(2, 4, 6, 8, 10))
         );
     }
+
+    @Test
+    void combiningTwoStreams() {
+        assertThat(
+                Main.combiningTwoStreams(Flux.just(1, 2, 3, 4)),
+                is(contains(
+                        "First Flux: 2, Second Flux: 0",
+                        "First Flux: 4, Second Flux: 1",
+                        "First Flux: 6, Second Flux: 2",
+                        "First Flux: 8, Second Flux: 3"
+                        ))
+        );
+    }
 }
