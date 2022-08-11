@@ -69,4 +69,10 @@ public class Main {
 
         return elements;
     }
+
+    public static List<Integer> useMap(Flux<Integer> f) {
+        List<Integer> elements = new ArrayList<>();
+        f.log().map(i -> i * 2).subscribe(elements::add);
+        return elements;
+    }
 }

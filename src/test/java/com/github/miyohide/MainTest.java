@@ -27,4 +27,12 @@ class MainTest {
                 Main.backpressure01(Flux.just(1, 2, 3, 4, 5)),
                 is(contains(1, 2, 3, 4, 5)));
     }
+
+    @Test
+    void useMap() {
+        assertThat(
+                Main.useMap(Flux.just(1, 2, 3, 4, 5)),
+                is(contains(2, 4, 6, 8, 10))
+        );
+    }
 }
