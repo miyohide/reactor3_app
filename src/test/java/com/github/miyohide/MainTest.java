@@ -13,4 +13,11 @@ class MainTest {
     void fluxMethod01() {
         assertThat(Main.fluxMethod01(Flux.just(1, 2, 3, 4)), is(contains(1, 2, 3, 4)));
     }
+
+    @Test
+    void fluxMethodWithOriginalSubscriber() {
+        assertThat(
+                Main.fluxMethodWithOriginalSubscriber(Flux.just(1, 2, 3, 4, 5)),
+                is(contains(1, 2, 3, 4, 5)));
+    }
 }

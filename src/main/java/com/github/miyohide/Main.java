@@ -1,5 +1,7 @@
 package com.github.miyohide;
 
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
@@ -14,6 +16,25 @@ public class Main {
     public static List<Integer> fluxMethod01(Flux<Integer> f) {
         List<Integer> elements = new ArrayList<>();
         f.log().subscribe(elements::add);
+        return elements;
+    }
+
+    public static List<Integer> fluxMethodWithOriginalSubscriber(Flux<Integer> f) {
+        List<Integer> elements = new ArrayList<>();
+        f.log().subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onSubscribe(Subscription s) {
+                s.request(Long.MAX_VALUE);
+            }
+            @Override
+            public void onNext(Integer integer) {
+                elements.add(integer);
+            }
+            @Override
+            public void  onError(Throwable t) {}
+            @Override
+            public void onComplete() {}
+        });
         return elements;
     }
 }
