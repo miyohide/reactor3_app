@@ -10,7 +10,8 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        hotStreams();
+        ConnectableFlux<Object> publish = hotStreams();
+        publish.connect();
     }
 
     public static List<Integer> fluxMethod01(Flux<Integer> f) {
@@ -86,7 +87,7 @@ public class Main {
         return elements;
     }
 
-    public static void hotStreams() {
+    public static ConnectableFlux<Object> hotStreams() {
         ConnectableFlux<Object> publish = Flux.create(fluxSink -> {
             while (true) {
                 fluxSink.next(System.currentTimeMillis());
@@ -95,6 +96,6 @@ public class Main {
                 .publish();
         publish.subscribe(System.out::println);
         publish.subscribe(System.out::println);
-//        publish.connect();
+        return publish;
     }
 }
