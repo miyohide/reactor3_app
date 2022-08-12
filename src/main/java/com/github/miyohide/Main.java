@@ -5,6 +5,7 @@ import org.reactivestreams.Subscription;
 import reactor.core.publisher.ConnectableFlux;
 import reactor.core.publisher.Flux;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,6 +94,7 @@ public class Main {
                 fluxSink.next(System.currentTimeMillis());
             }
         })
+                .sample(Duration.ofSeconds(2))
                 .publish();
         publish.subscribe(System.out::println);
         publish.subscribe(System.out::println);
