@@ -4,6 +4,8 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import reactor.core.publisher.ConnectableFlux;
 import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -99,5 +101,14 @@ public class Main {
         publish.subscribe(System.out::println);
         publish.subscribe(System.out::println);
         return publish;
+    }
+
+    public static List<Integer> concurrency(Flux<Integer> f) {
+        List<Integer> elements = new ArrayList<>();
+        f.log().map(integer -> integer * 2)
+                .subscribeOn(Schedulers.parallel())
+                .subscribe(elements::add);
+
+        return elements;
     }
 }
