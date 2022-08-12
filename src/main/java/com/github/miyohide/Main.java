@@ -2,6 +2,7 @@ package com.github.miyohide;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
+import reactor.core.publisher.ConnectableFlux;
 import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
@@ -9,8 +10,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<Integer> elements = Main.fluxMethod01(Flux.just(1, 2, 3, 4));
-        System.out.println(elements);
+        hotStreams();
     }
 
     public static List<Integer> fluxMethod01(Flux<Integer> f) {
@@ -84,5 +84,17 @@ public class Main {
                         (one, two) -> String.format("First Flux: %d, Second Flux: %d", one, two))
                 .subscribe(elements::add);
         return elements;
+    }
+
+    public static void hotStreams() {
+        ConnectableFlux<Object> publish = Flux.create(fluxSink -> {
+            while (true) {
+                fluxSink.next(System.currentTimeMillis());
+            }
+        })
+                .publish();
+        publish.subscribe(System.out::println);
+        publish.subscribe(System.out::println);
+//        publish.connect();
     }
 }
