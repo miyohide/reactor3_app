@@ -3,6 +3,8 @@ package com.github.miyohide;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -46,6 +48,16 @@ class MainTest {
                         "First Flux: 6, Second Flux: 2",
                         "First Flux: 8, Second Flux: 3"
                         ))
+        );
+    }
+
+    @Test
+    void concurrency() throws InterruptedException {
+        List<Integer> actual = Main.concurrency(Flux.just(1, 2, 3, 4));
+        Thread.sleep(1000);
+        assertThat(
+                actual,
+                is(contains(2, 4, 6, 8))
         );
     }
 }
