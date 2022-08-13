@@ -54,6 +54,7 @@ class MainTest {
     @Test
     void concurrency() throws InterruptedException {
         List<Integer> actual = Main.concurrency(Flux.just(1, 2, 3, 4));
+         // 別スレッドでsubscribeを実行しているため、少し待つ
         Thread.sleep(1000);
         assertThat(
                 actual,
